@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@14islands/lerp": "^1.0.3",
     "@react-three/drei": "^9.19.0",
     "@react-three/fiber": "^8.2.2",
     "@testing-library/jest-dom": "^5.16.4",

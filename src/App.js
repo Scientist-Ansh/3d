@@ -1,4 +1,4 @@
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { useGLTF, OrbitControls, Environment } from '@react-three/drei';
 import { useEffect, Suspense, useRef } from 'react';
 
@@ -7,9 +7,8 @@ import { SphereModel } from './models/sphere';
 
 import { AxesHelper } from 'three';
 import { CloudModel } from './models/clouds';
-/**
- * FE414 - Session 3
- */
+
+import lerp from '@14islands/lerp';
 
 function Loader() {
   const box = useRef();
@@ -25,11 +24,22 @@ function Loader() {
   );
 }
 
+function CameraParallax() {
+  const { camera } = useThree();
+  useFrame(({ mouse }) => {
+    camera.position.x = lerp(camera.position.x, mouse.x, 0.05);
+    // camera.lookAt(0, 0, 0);
+    camera.updateProjectionMatrix();
+  });
+}
+
 export default function App() {
   return (
     <Canvas camera={{ position: [0, 0.5, 4] }}>
+      <CameraParallax />
+
       <Suspense fallback={<Loader />}>
-        <primitive object={new AxesHelper(10)} />
+        {/* <primitive object={new AxesHelper(10)} /> */}
         <PlaneModel position={[0, 1.5, 1]} rotation={[0, Math.PI, 0]} />
         <SphereModel position={[0, -5, 6]} />
         <CloudModel position={[1, 1, 0]} scale={1} />

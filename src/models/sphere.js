@@ -24,7 +24,7 @@ export function SphereModel(props) {
         receiveShadow
         geometry={nodes.Cylinder.geometry}
         rotation={[Math.PI * 0.5, 0, 0]}
-        scale={5}
+        scale={[5, 2, 5]}
       >
         <meshStandardMaterial
           map={colorMap}

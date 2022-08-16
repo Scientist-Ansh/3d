@@ -26,8 +26,8 @@ function Loader() {
 
 function CameraParallax() {
   const { camera } = useThree();
-  useFrame(({ mouse }) => {
-    camera.position.x = lerp(camera.position.x, mouse.x, 0.05);
+  useFrame(({ mouse }, delta) => {
+    camera.position.x = lerp(camera.position.x, mouse.x, 0.05, delta);
     // camera.lookAt(0, 0, 0);
     camera.updateProjectionMatrix();
   });
@@ -40,16 +40,20 @@ export default function App() {
 
       <Suspense fallback={<Loader />}>
         {/* <primitive object={new AxesHelper(10)} /> */}
-        <PlaneModel position={[0, 1.5, 1]} rotation={[0, Math.PI, 0]} />
-        <SphereModel position={[0, -5, 6]} />
-        <CloudModel position={[1, 1, 0]} scale={1} />
+        <PlaneModel position={[0, 1, 1]} rotation={[0, Math.PI, 0]} />
+        <SphereModel position={[0, -5.5, 3]} />
+        <CloudModel position={[3, 0, 0]} scale={1} />
         <CloudModel position={[-3, 1, 0]} scale={1} />
         <CloudModel
           position={[4, 2, 0.5]}
           scale={2}
           rotation={[Math.PI * 0.25, 0, 0]}
         />
-        <CloudModel position={[1, 1, 0]} scale={1} />
+        <CloudModel
+          position={[-5, 2, -1]}
+          rotation={[Math.PI * 0.25, 0, 0]}
+          scale={1}
+        />
         <Environment files={'montorfano_1k.hdr'} />
       </Suspense>
       <OrbitControls />

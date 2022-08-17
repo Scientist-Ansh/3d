@@ -2,6 +2,7 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { useGLTF, OrbitControls, Environment } from '@react-three/drei';
 import { useEffect, Suspense, useRef } from 'react';
 
+import Loader from './Components/Loader';
 import PlaneModel from './models/plane';
 import { SphereModel } from './models/sphere';
 
@@ -9,20 +10,6 @@ import { AxesHelper } from 'three';
 import { CloudModel } from './models/clouds';
 
 import lerp from '@14islands/lerp';
-
-function Loader() {
-  const box = useRef();
-  useFrame(({ clock }) => {
-    box.current.rotation.x = clock.getElapsedTime();
-    box.current.rotation.y = clock.getElapsedTime();
-  });
-  return (
-    <mesh ref={box}>
-      <boxGeometry />
-      <meshNormalMaterial />
-    </mesh>
-  );
-}
 
 function CameraParallax() {
   const { camera } = useThree();
@@ -40,7 +27,7 @@ export default function App() {
 
       <Suspense fallback={<Loader />}>
         {/* <primitive object={new AxesHelper(10)} /> */}
-        <PlaneModel position={[0, 1, 1]} rotation={[0, Math.PI, 0]} />
+        <PlaneModel rotation={[0, Math.PI, 0]} />
         <SphereModel position={[0, -5.5, 3]} />
         <CloudModel position={[3, 0, 0]} scale={1} />
         <CloudModel position={[-3, 1, 0]} scale={1} />

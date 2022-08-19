@@ -6,8 +6,7 @@ import { useFrame } from '@react-three/fiber';
 export function SphereModel(props) {
   const earthRef = useRef();
   const { nodes, materials } = useGLTF('/models/shpere.glb');
-  const [colorMap, metallnessMap, roughnessMap, normalMap] = useTexture([
-    '/textures/aerial_rocks_02_diff_1k.jpg',
+  const [colorMap, roughnessMap, normalMap] = useTexture([
     '/textures/aerial_rocks_02_diff_1k.jpg',
     '/textures/aerial_rocks_02_rough_ao_1k.jpg',
     '/textures/aerial_rocks_02_nor_gl_1k.jpg',
@@ -20,7 +19,6 @@ export function SphereModel(props) {
     <group {...props} dispose={null} ref={earthRef}>
       <mesh
         map
-        castShadow
         receiveShadow
         geometry={nodes.Cylinder.geometry}
         rotation={[Math.PI * 0.5, 0, 0]}
@@ -31,7 +29,6 @@ export function SphereModel(props) {
           map-wrapT={RepeatWrapping}
           map-wrapS={RepeatWrapping}
           map-repeat={[10, 10]}
-          // metalnessMap={metallnessMap}
           roughness={1}
           metallness={0}
           roughnessMap={roughnessMap}

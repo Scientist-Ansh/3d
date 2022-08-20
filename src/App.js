@@ -1,15 +1,23 @@
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { useGLTF, OrbitControls, Environment } from '@react-three/drei';
-import { useEffect, Suspense, useRef } from 'react';
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import {
+  useGLTF,
+  OrbitControls,
+  Environment,
+  SpotLight,
+  useHelper,
+  Shadow,
+} from "@react-three/drei";
+import { useEffect, Suspense, useRef, useState } from "react";
 
-import Loader from './Components/Loader';
-import PlaneModel from './models/plane';
-import { SphereModel } from './models/sphere';
+import Loader from "./Components/Loader";
+import PlaneModel from "./models/plane";
+import { SphereModel } from "./models/sphere";
 
-import { AxesHelper } from 'three';
-import { CloudModel } from './models/clouds';
+import { AxesHelper, PointLightHelper, SpotLightHelper } from "three";
 
-import lerp from '@14islands/lerp';
+import lerp from "@14islands/lerp";
+import HandPoseDetection from "./Components/HandPoseDetection";
+import Clouds from "./Components/Clouds";
 
 function CameraParallax() {
   const { camera } = useThree();
@@ -20,30 +28,62 @@ function CameraParallax() {
   });
 }
 
-export default function App() {
-  return (
-    <Canvas camera={{ position: [0, 0.5, 4] }}>
-      <CameraParallax />
+const Lights = () => {
+  const sun = useRef();
+  const moon = useRef();
+  const lightsRef = useRef();
+  // useHelper(sun, PointLightHelper);
+  // useHelper(moon, PointLightHelper);
 
-      <Suspense fallback={<Loader />}>
-        {/* <primitive object={new AxesHelper(10)} /> */}
-        <PlaneModel rotation={[0, Math.PI, 0]} />
-        <SphereModel position={[0, -5.5, 3]} />
-        <CloudModel position={[3, 0, 0]} scale={1} />
-        <CloudModel position={[-3, 1, 0]} scale={1} />
-        <CloudModel
-          position={[4, 2, 0.5]}
-          scale={2}
-          rotation={[Math.PI * 0.25, 0, 0]}
-        />
-        <CloudModel
-          position={[-5, 2, -1]}
-          rotation={[Math.PI * 0.25, 0, 0]}
-          scale={1}
-        />
-        <Environment files={'montorfano_1k.hdr'} />
-      </Suspense>
-      <OrbitControls />
-    </Canvas>
+  useFrame(({ clock }) => {
+    lightsRef.current.rotation.z -= 0.003;
+  });
+
+  return (
+    <group ref={lightsRef}>
+      {/* <ambientLight intensity={0.1} color="white" position={[0, 5, 0]} /> */}
+      <directionalLight
+        ref={sun}
+        castShadow
+        intensity={0.3}
+        color="white"
+        position={[0, 16, 4]}
+      />
+      <directionalLight
+        ref={moon}
+        castShadow
+        intensity={0.02}
+        color="white"
+        position={[0, -16, 0]}
+      />
+    </group>
+  );
+};
+
+export default function App() {
+  const [planePosition, setPlanePosition] = useState([-0.3, -0.2, 1]);
+
+  return (
+    <>
+      <Canvas camera={{ position: [0, 0.5, 4] }} shadows>
+        <Lights />
+        <CameraParallax />
+
+        <Suspense fallback={<Loader />}>
+          {/* <primitive object={new AxesHelper(10)} /> */}
+          <PlaneModel
+            planePosition={planePosition}
+            setPlanePosition={setPlanePosition}
+          />
+          <SphereModel position={[0, -11, 2]} />
+          <Clouds />
+
+          {/* <Environment files={'montorfano_1k.hdr'} /> */}
+          <Environment files={"dikhololo_night_1k.hdr"} />
+        </Suspense>
+        <OrbitControls />
+      </Canvas>
+      {/* <HandPoseDetection setPlanePosition={setPlanePosition} /> */}
+    </>
   );
 }

@@ -47,7 +47,7 @@ export default function PlaneModel({ planePosition, setPlanePosition }, props) {
     if (planePosition[0] === -0.3) {
       setPlanePosition([0.3, 1.2, 1]);
     } else {
-      setPlanePosition([-0.3, -0.3, 1]);
+      setPlanePosition([-0.3, -0.2, 1]);
     }
   }
 
@@ -60,6 +60,7 @@ export default function PlaneModel({ planePosition, setPlanePosition }, props) {
         {...springProps}
         rotation={[0, Math.PI, 0]}
         onClick={handlePlanePosition}
+        castShadow
       >
         <mesh
           castShadow

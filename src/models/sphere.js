@@ -1,7 +1,8 @@
 import React, { useRef } from 'react';
 import { useGLTF, useTexture } from '@react-three/drei';
-import { RepeatWrapping } from 'three';
+import { Color, RepeatWrapping } from 'three';
 import { useFrame } from '@react-three/fiber';
+import { Colors } from '../utils/colors';
 
 export function SphereModel(props) {
   const earthRef = useRef();
@@ -18,25 +19,26 @@ export function SphereModel(props) {
   return (
     <group {...props} dispose={null} ref={earthRef}>
       <mesh
-        map
         receiveShadow
         geometry={nodes.Cylinder.geometry}
+        material={nodes.Cylinder.material}
         rotation={[Math.PI * 0.5, 0, 0]}
-        scale={[5, 2, 5]}
+        scale={[10, 5, 10]}
       >
         <meshStandardMaterial
-          map={colorMap}
-          map-wrapT={RepeatWrapping}
-          map-wrapS={RepeatWrapping}
-          map-repeat={[10, 10]}
+          // map={colorMap}
+          // map-wrapT={RepeatWrapping}
+          // map-wrapS={RepeatWrapping}
+          // map-repeat={[10, 10]}
           roughness={1}
           metallness={0}
-          roughnessMap={roughnessMap}
-          roughnessMap-wrapT={RepeatWrapping}
-          roughnessMap-wrapS={RepeatWrapping}
-          normalMap={normalMap}
-          normalMap-wrapT={RepeatWrapping}
-          normalMap-wrapS={RepeatWrapping}
+          color={Colors.blue}
+          // roughnessMap={roughnessMap}
+          // roughnessMap-wrapT={RepeatWrapping}
+          // roughnessMap-wrapS={RepeatWrapping}
+          // normalMap={normalMap}
+          // normalMap-wrapT={RepeatWrapping}
+          // normalMap-wrapS={RepeatWrapping}
         />
       </mesh>
     </group>

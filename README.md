@@ -30,3 +30,5 @@ It would 3 navigation options which user can toggle accroding to presference - m
 - YOu can also combine the meshes now that you know you would want to animate together or will not use this will reduce the draw calls.
 
 - Advanced technique like back face culling can be applied as well if the inside of model is not visible.
+
+#### presee arrow key up to move the plane up and arrow key down to move the plane down.
